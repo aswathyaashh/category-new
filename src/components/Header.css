@@ -1,0 +1,14 @@
+.header{
+    padding-top: 100px;
+}
+.input-group{
+    margin-left: 5rem;
+    width: 15rem;
+}
+.header-buttons {
+    display: flex;
+
+}
+.add-cat{
+    margin-left:65%;
+}
