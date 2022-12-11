@@ -17,7 +17,7 @@ const TableRow = (props) => {
   return (
     <div>
       {edit && <EditModal onEdit={setEdit} value={props.cat} sl={props.sl} rowId={props.rowId}/>}
-      {ondelete && <DeleteModal onDelete={setOnDelete} value={props.cat} sl={props.sl} rowId={props.rowId}/>}
+      {ondelete && <DeleteModal onDelete={setOnDelete} value={props.cat} sl={props.sl} />}
       <li className="table-row" >
         <div className="col" >{props.sl}</div>
         <div className="col" >{props.cat}</div>

@@ -16,13 +16,13 @@ const Table = () => {
                 <div className="col">Actions</div>
             </li>
             { 
-                data.map((user,id)=>{
+
+                data && data.map((cat,id)=>{
                     // console.log(user.name)                  
-                   return <TableRow
-                      rowId={id}  
+                   return <TableRow 
                       key={id}
-                      sl={user.categoryId}
-                      cat={user.categoryName}
+                      sl={cat.categoryId}
+                      cat={cat.categoryName}
                     /> 
                 })}
                 

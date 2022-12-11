@@ -8,53 +8,55 @@ import axios from 'axios';
 
 const AddModal = (props) => {
     const [catagory, setCatagory] = useState('');
-    const [success, setSuccess] = useState('');
-    const [response, setResponse] = useState('');
+    const [success, setSuccess] = useState();
+    
    
-    const {data, setData} = useContext(UserContext)
+    const {setResponse} = useContext(UserContext)
 
     const setCatHandler = (e) => {
       setCatagory(e.target.value);
-       console.log(typeof(catagory))
+    
     }
     const addUserHandler = (event) => {
         event.preventDefault();
+
         if (catagory.trim().length === 0) {
           return;
         }
-        //useEffect(() => {
-          const Url = `https://localhost:7093/api/Category/CategoryName/${catagory}`
-          const Add_Url = `https://localhost:7093/api/Category/Add`
-          
-          //const refreshList = () => {
-          let token = localStorage.getItem("token");
-          axios({
-          url: Url ,
-          method: "get",
-          headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-          },
-          }).then(function (response) {
-          console.log(response.data.message);
-          setSuccess(response.data.success)
-          //setData(response.data.data);
-          });
-        if(success){
-          const data = {
-            categoryName : catagory
-          }
-          
-          axios.post(Add_Url, data, {
-            headers: {
-              'Authorization': `Basic ${token}`
-            },
-          })
-          
-          setCatagory('');
-        props.onState(false);
+       
+        const data = {categoryName : catagory}
+        const Url = `https://localhost:7093/api/Category/CategoryName/${catagory}`
+        const Add_Url = `https://localhost:7093/api/Category/Add`
+        let token = localStorage.getItem("token"); 
+         
+       
+        validate(Url,token)
+
+        if(success===false){ 
+              console.log("hai")
+              axios.post(Add_Url, data, {
+                headers: {
+                  'Authorization': `Basic ${token}`
+                },
+              })
+              setResponse(catagory)
+              setCatagory('');
+              props.onState(false);
+              alert("category added")
         }
-    };
+        };
+    const validate = (Url,token) => {
+      axios({
+        url: Url ,
+        method: "get",
+        headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+        },
+        })
+        .then((response) =>{
+        setSuccess(response.data.success)})
+    }
     const closeModal = () => {
       props.onState(true);
     }

@@ -8,7 +8,7 @@ const Header = (props) => {
   const [state, setState] = useState(false);
   const stateHandler = () => {
     state ? setState(false) : setState(true);
-    console.log(state)
+   
   }
  
   return (
@@ -17,7 +17,7 @@ const Header = (props) => {
         <h1>Catagories</h1>
         <div className='header-buttons'>
               {/* Search box */}
-            <div class="input-group">
+            <div className="input-group">
               <input type="text" className="form-control" placeholder="Search this blog" />
               <div className="input-group-append">
                 <button className="btn btn-secondary" type="button">

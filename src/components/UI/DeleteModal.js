@@ -1,21 +1,19 @@
 import React,{ useContext} from 'react';
-
 import { UserContext } from '../../App';
 import Card from './Card';
 import Button from './Button';
 import classes from './Modal.module.css';
+import axios from 'axios';
 
-const EditModal = (props) => {
-
-    const {setData} = useContext(UserContext)
-
+const DeleteModal = (props) => {
+ 
+    const {setResponse, response} = useContext(UserContext)
+    const deleteUrl = `https://localhost:7093/api/Category/delete/${props.sl}`
+    let token = localStorage.getItem("token");
 
     function deleteUserHandler (){
-        setData(prevDatas =>{
-            return prevDatas.filter((data, index) => {
-                return index !== props.rowId
-            });
-        });
+      axios.delete(deleteUrl)
+      .then(res => {setResponse(res.data)})
         props.onDelete(false);
     };
     const closeModal = () => {
@@ -37,5 +35,5 @@ const EditModal = (props) => {
   );
 };
 
-export default EditModal;
+export default DeleteModal;
 

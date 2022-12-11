@@ -1,14 +1,14 @@
 import React,{useState, useContext} from 'react';
-
 import { UserContext } from '../../App';
 import Card from './Card';
 import Button from './Button';
 import classes from './Modal.module.css';
+import axios from 'axios';
 
 const EditModal = (props) => {
     const [catagory, setcatagory] = useState('');
-    const {data, setData} = useContext(UserContext)
-
+    const {setResponse} = useContext(UserContext)
+    const editUrl = `https://localhost:7093/api/Category/${props.sl}`
     const setCatHandler = (e) => {
         setcatagory(e.target.value);
     }
@@ -18,14 +18,10 @@ const EditModal = (props) => {
           return;
         }
         // props.onAddUser(catagory);
-        setData((data.map((data,id) => {
-            if(id === props.rowId){
-                
-                data = { name: catagory, id:props.sl};
-            }
-            return data
-        })))
-        console.log(data)
+        axios.put(editUrl, {
+          categoryName : catagory
+       })
+       .then(res => {setResponse(res.data)})
         setcatagory('');
         props.onEdit(false);
 
