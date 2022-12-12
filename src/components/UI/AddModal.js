@@ -1,4 +1,4 @@
-import React,{useState, useContext} from 'react';
+import React,{useState, useContext, useEffect} from 'react';
 
 import { UserContext } from '../../App';
 import Card from './Card';
@@ -9,54 +9,60 @@ import axios from 'axios';
 const AddModal = (props) => {
     const [catagory, setCatagory] = useState('');
     const [success, setSuccess] = useState();
-    
-   
     const {setResponse} = useContext(UserContext)
+
+    
+    const Add_Url = `https://localhost:7093/api/Category/Add`
+    const Url = `https://localhost:7093/api/Category/CategoryName/${catagory}`
+      let token = localStorage.getItem("token");
+   
 
     const setCatHandler = (e) => {
       setCatagory(e.target.value);
-    
     }
-    const addUserHandler = (event) => {
+
+    const addUserHandler = async(event) => {
         event.preventDefault();
 
         if (catagory.trim().length === 0) {
           return;
         }
-       
         const data = {categoryName : catagory}
-        const Url = `https://localhost:7093/api/Category/CategoryName/${catagory}`
-        const Add_Url = `https://localhost:7093/api/Category/Add`
-        let token = localStorage.getItem("token"); 
-         
-       
-        validate(Url,token)
-
-        if(success===false){ 
+        await axios({
+          url: Url ,
+          method: "get",
+          headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          },
+          })
+          .then((response) =>{
+            setSuccess(response.data.success)
+            if(response.data.success===false){ 
               console.log("hai")
-              axios.post(Add_Url, data, {
-                headers: {
-                  'Authorization': `Basic ${token}`
-                },
-              })
-              setResponse(catagory)
+              axios.post(Add_Url, data)
+              setResponse(Math.random())
               setCatagory('');
-              props.onState(false);
-              alert("category added")
-        }
+              props.onState(false)
+            }
+         })
+       
+        
+        
+        
         };
-    const validate = (Url,token) => {
-      axios({
-        url: Url ,
-        method: "get",
-        headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-        },
-        })
-        .then((response) =>{
-        setSuccess(response.data.success)})
-    }
+    // const validate = (Url,token) => {
+    //   axios({
+    //     url: Url ,
+    //     method: "get",
+    //     headers: {
+    //     Authorization: "Bearer " + token,
+    //     "Content-Type": "application/json",
+    //     },
+    //     })
+    //     .then((response) =>{
+    //     setSuccess(response.data.success)})
+    // }
     const closeModal = () => {
       props.onState(true);
     }

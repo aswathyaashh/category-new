@@ -11,7 +11,7 @@ export const UserContext = createContext();
 
 function App() {
   const [data, setData] = useState([]);
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState();
   
   useEffect(() => {
     const Url = "https://localhost:7093/api/Category"
